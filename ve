@@ -1,0 +1,83 @@
+/*
+  Use delay function to acomplish 5 different PWM setting.
+  data:2017.12.8
+*/
+
+int x; 
+int count;   
+int NUM=1600;
+
+void setup()  
+{ 
+  count = 0; 
+  /*setup for motor 1*/
+  pinMode(6,OUTPUT); // Enable  
+  pinMode(5,OUTPUT); // Step  
+  pinMode(4,OUTPUT); // Dir  
+  digitalWrite(6,LOW); // Set Enable low
+  /*setup for motor 2*/
+  pinMode(11,OUTPUT); // Enable  
+  pinMode(12,OUTPUT); // Step  
+  pinMode(13,OUTPUT); // Dir  
+  digitalWrite(11,LOW); // Set Enable low
+  /*set serial port bode rate*/
+  Serial.begin(9600);  
+  /*set extern input port*/
+  pinMode(8,INPUT);  
+}  
+  
+  
+void spin_OneRev(int num)
+{   
+  digitalWrite(4,HIGH); // Set Dir high for motor 1
+  digitalWrite(13,HIGH); // Set Dir high for motor 2
+    
+  for(x = 0; x < 800; x++) // Loop 200 times  
+  {  
+      digitalWrite(5,HIGH); // Output high for motor 1
+      digitalWrite(12,HIGH); // Output high for motor 2
+      delayMicroseconds(num ); // Wait num/NUM a ms  
+      digitalWrite(5,LOW); // Output low for motor 1
+      digitalWrite(12,LOW); // Output low for motor 2 
+      delayMicroseconds(NUM-num); // Wait (NUM-num)/NUM a ms  
+    }  
+    
+  digitalWrite(4,LOW); // Set Dir low for motor 1  
+  digitalWrite(13,LOW); // Set Dir low for motor 2
+  
+  for(x = 0; x < 800; x++) // Loop 200 times  
+  {  
+      digitalWrite(5,HIGH); // Output high for moter 1
+      digitalWrite(12,HIGH); // Output high for motor 2
+      delayMicroseconds(num); // Wait num/NUM a ms  
+      digitalWrite(5,LOW); // Output low for motor 1
+      digitalWrite(12,LOW); // Output low for motor 2
+      delayMicroseconds(NUM-num); // Wait (NUM-num)/NUM a ms  
+    }  
+}
+
+void loop() {
+    count++;
+    if(count%5==1)
+    {
+      spin_OneRev(0);
+    }
+    else if(count%5==2) 
+    {
+      spin_OneRev(400); 
+    } 
+    else if(count%5==3) 
+    {
+      spin_OneRev(800); 
+    }
+    else if(count%5==4) 
+    {
+      spin_OneRev(1200); 
+    }
+    else
+    {
+      spin_OneRev(1600);   
+    }
+    delay(1000); // pause one second 
+  } 
+}
