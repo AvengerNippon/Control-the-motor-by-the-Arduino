@@ -1,66 +1,52 @@
 int x; 
 int count;   
 
-  
 void setup()  
 { 
   count = 0; 
+  /*setup for motor 1*/
   pinMode(6,OUTPUT); // Enable  
   pinMode(5,OUTPUT); // Step  
   pinMode(4,OUTPUT); // Dir  
   digitalWrite(6,LOW); // Set Enable low
+  /*setup for motor 2*/
   pinMode(11,OUTPUT); // Enable  
   pinMode(12,OUTPUT); // Step  
   pinMode(13,OUTPUT); // Dir  
   digitalWrite(11,LOW); // Set Enable low
+  /*set serial port bode rate*/
   Serial.begin(9600);  
+  /*set extern input port*/
   pinMode(8,INPUT);  
 }  
   
   
 void spin_OneRev()
-{  
+{   
+  digitalWrite(4,HIGH); // Set Dir high for motor 1
+  digitalWrite(13,HIGH); // Set Dir high for motor 2
+    
+  for(x = 0; x < 800; x++) // Loop 200 times  
+  {  
+      digitalWrite(5,HIGH); // Output high for motor 1
+      digitalWrite(12,HIGH); // Output high for motor 2
+      delayMicroseconds(800 ); // Wait 1/2 a ms  
+      digitalWrite(5,LOW); // Output low for motor 1
+      digitalWrite(12,LOW); // Output low for motor 2 
+      delayMicroseconds(800); // Wait 1/2 a ms  
+    }  
+  delay(1000); // pause one second  
+    
+  digitalWrite(4,LOW); // Set Dir low for motor 1  
+  digitalWrite(13,LOW); // Set Dir low for motor 2
   
-  digitalWrite(4,HIGH); // Set Dir high  
-    
   for(x = 0; x < 800; x++) // Loop 200 times  
   {  
-      digitalWrite(5,HIGH); // Output high  
-      delayMicroseconds(800 ); // Wait 1/2 a ms  
-      digitalWrite(5,LOW); // Output low  
+      digitalWrite(5,HIGH); // Output high for moter 1
+      digitalWrite(12,HIGH); // Output high for motor 2
       delayMicroseconds(800); // Wait 1/2 a ms  
-    }  
-  delay(1000); // pause one second  
-    
-  digitalWrite(4,LOW); // Set Dir low  
-    
-  for(x = 0; x < 800; x++) // Loop 2000 times  
-  {  
-      digitalWrite(5,HIGH); // Output high  
-      delayMicroseconds(800); // Wait 1/2 a ms  
-      digitalWrite(5,LOW); // Output low  
-      delayMicroseconds(800); // Wait 1/2 a ms  
-    }  
-    delay(1000); // pause one second  
-    
-    digitalWrite(13,HIGH); // Set Dir high  
-    
-  for(x = 0; x < 800; x++) // Loop 200 times  
-  {  
-      digitalWrite(12,HIGH); // Output high  
-      delayMicroseconds(800 ); // Wait 1/2 a ms  
-      digitalWrite(12,LOW); // Output low  
-      delayMicroseconds(800); // Wait 1/2 a ms  
-    }  
-  delay(1000); // pause one second  
-    
-  digitalWrite(13,LOW); // Set Dir low  
-    
-  for(x = 0; x < 800; x++) // Loop 2000 times  
-  {  
-      digitalWrite(12,HIGH); // Output high  
-      delayMicroseconds(800); // Wait 1/2 a ms  
-      digitalWrite(12,LOW); // Output low  
+      digitalWrite(5,LOW); // Output low for motor 1
+      digitalWrite(12,LOW); // Output low for motor 2
       delayMicroseconds(800); // Wait 1/2 a ms  
     }  
     delay(1000); // pause one second  
